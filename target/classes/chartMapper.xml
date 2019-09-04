@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 메모 처리 SQL -->
+<mapper namespace="global.sesoc.projectEC.dao.ChartDAO">
+
+<!-- 9월의 카페의 각 순차별 배출량을 가져오자. -->
+<select id="getCafegraph9" resultType="string" parameterType="string">
+select sum(amount)
+from result
+where cafeid=#{loginId} and realdate &gt;= ADD_MONTHS( TRUNC(sysdate,'MM'), -1 ) and realdate &lt;= last_day(to_date('20171101', 'yyyymmdd'))
+</select>
+
+<!-- 8월의 카페의 각 순차별 배출량을 가져오자. -->
+<select id="getCafegraph8" resultType="string" parameterType="string">
+select sum(amount)
+from result
+where cafeid=#{loginId} and realdate &gt;= ADD_MONTHS( TRUNC(sysdate,'MM'), -2 ) and realdate &lt;= last_day(to_date('20171001', 'yyyymmdd'))
+</select>
+
+<!-- 7월의 카페의 배출량을 가져오자. -->
+<select id="getCafegraph7" resultType="string" parameterType="string">
+select sum(amount)
+from result
+where cafeid=#{loginId} and realdate &gt;= ADD_MONTHS( TRUNC(sysdate,'MM'), -3 ) and realdate &lt;= last_day(to_date('20170901', 'yyyymmdd'))
+</select>
+
+<!-- 6월의 카페의 배출량을 가져오자. -->
+<select id="getCafegraph6" resultType="string" parameterType="string">
+select sum(amount)
+from result
+where cafeid=#{loginId} and realdate &gt;= ADD_MONTHS( TRUNC(sysdate,'MM'), -4 ) and realdate &lt;= last_day(to_date('20170801', 'yyyymmdd'))
+</select>
+
+<!-- 5월의 카페의 배출량을 가져오자. -->
+<select id="getCafegraph5" resultType="string" parameterType="string">
+select sum(amount)
+from result
+where cafeid=#{loginId} and realdate &gt;= ADD_MONTHS( TRUNC(sysdate,'MM'), -5 ) and realdate &lt;= last_day(to_date('20170701', 'yyyymmdd'))
+</select>
+
+
+
+<!-- 9월의 전체  배출량/수거량을 가져오자. -->
+<select id="getAllgraph9" resultType="int">
+select sum(amount)
+from result
+where realdate &gt;= ADD_MONTHS( TRUNC(sysdate,'MM'), -1 ) and realdate &lt;= last_day(to_date('20171101', 'yyyymmdd'))
+</select>
+
+<!-- 8월의 전체  배출량/수거량을 가져오자. -->
+<select id="getAllgraph8" resultType="int">
+select sum(amount)
+from result
+where realdate &gt;= ADD_MONTHS( TRUNC(sysdate,'MM'), -2 ) and realdate &lt;= last_day(to_date('20171001', 'yyyymmdd'))
+</select>
+
+<!-- 7월의 전체  배출량/수거량을 가져오자. -->
+<select id="getAllgraph7" resultType="int">
+select sum(amount)
+from result
+where realdate &gt;= ADD_MONTHS( TRUNC(sysdate,'MM'), -3 ) and realdate &lt;= last_day(to_date('20170901', 'yyyymmdd'))
+</select>
+
+<!-- 6월의 전체  배출량/수거량을 가져오자. -->
+<select id="getAllgraph6" resultType="int">
+select sum(amount)
+from result
+where realdate &gt;= ADD_MONTHS( TRUNC(sysdate,'MM'), -4 ) and realdate &lt;= last_day(to_date('20170801', 'yyyymmdd'))
+</select>
+
+<!-- 5월의 전체  배출량/수거량을 가져오자. -->
+<select id="getAllgraph5" resultType="int">
+select sum(amount)
+from result
+where realdate &gt;= ADD_MONTHS( TRUNC(sysdate,'MM'), -5 ) and realdate &lt;= last_day(to_date('20170701', 'yyyymmdd'))
+</select>
+
+
+
+
+<!-- 7월의 실시간 랭킹 1위부터 3위의 카페 이름을 가져온다. -->
+<select id="getCafescore" resultType="string">
+   select cafename 
+   from result 
+   where realdate &gt;= ADD_MONTHS( TRUNC(sysdate,'MM'), -1 ) and realdate &lt;= last_day(to_date('20190801', 'yyyymmdd'))
+   group by cafename
+   order by sum(amount) desc
+</select>
+
+
+
+
+<!-- 9월의 업체의  배출량을 가져오자. -->
+<select id="getBusigraph9" resultType="string" parameterType="string">
+select sum(amount)
+from result
+where businessid=#{loginId} and realdate &gt;= ADD_MONTHS( TRUNC(sysdate,'MM'), -1 ) and realdate &lt;= last_day(to_date('20171101', 'yyyymmdd'))
+</select>
+
+
+<!-- 8월의 업체의  배출량을 가져오자. -->
+<select id="getBusigraph8" resultType="string" parameterType="string">
+select sum(amount)
+from result
+where businessid=#{loginId} and realdate &gt;= ADD_MONTHS( TRUNC(sysdate,'MM'), -2 ) and realdate &lt;= last_day(to_date('20171001', 'yyyymmdd'))
+</select>
+
+<!-- 7월의 업체의 배출량을 가져오자. -->
+<select id="getBusigraph7" resultType="string" parameterType="string">
+select sum(amount)
+from result
+where businessid=#{loginId} and realdate &gt;= ADD_MONTHS( TRUNC(sysdate,'MM'), -3 ) and realdate &lt;= last_day(to_date('20170901', 'yyyymmdd'))
+</select>
+
+<!-- 6월의 업체의 배출량을 가져오자. -->
+<select id="getBusigraph6" resultType="string" parameterType="string">
+select sum(amount)
+from result
+where businessid=#{loginId} and realdate &gt;= ADD_MONTHS( TRUNC(sysdate,'MM'), -4 ) and realdate &lt;= last_day(to_date('20170801', 'yyyymmdd'))
+</select>
+
+<!-- 5월의 업체의 배출량을 가져오자. -->
+<select id="getBusigraph5" resultType="string" parameterType="string">
+select sum(amount)
+from result
+where businessid=#{loginId} and realdate &gt;= ADD_MONTHS( TRUNC(sysdate,'MM'), -5 ) and realdate &lt;= last_day(to_date('20170701', 'yyyymmdd'))
+</select>
+
+</mapper>

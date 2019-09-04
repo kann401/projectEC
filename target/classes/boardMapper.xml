@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="global.sesoc.projectEC.dao.BoardDAO">
+
+   <select id="select" parameterType="String" resultType="FormVO">
+      SELECT
+      *
+<!--       resernum -->
+<!--       , cafeid -->
+<!--       , cafename -->
+<!--       , cafepostcode -->
+<!--       , businessid -->
+<!--       , businessname -->
+<!--       , amount -->
+<!--       , to_char(realdate, 'YYYY-MM-DD') realdate -->
+<!--       , sign -->
+      FROM 
+         result
+      WHERE
+         cafeid = #{loginId} or businessid = #{loginId}
+      ORDER BY 
+         realdate DESC
+   </select>
+
+   <!-- 로그인한 아이디의 예약번호로 결과값 가져오기 -->
+   <select id="selectOne" parameterType="String" resultType="FormVO">
+      SELECT * FROM result
+      WHERE resernum = #{resernum}
+   </select>
+
+   <!-- 전체 글 개수 -->
+   <select id="getBoardCount" parameterType="String" resultType="int">
+      SELECT COUNT(*)
+      FROM
+         result
+      WHERE
+         cafeid = #{loginId} or businessid = #{loginId}
+   </select>
+
+   <!-- <delete id="delete" parameterType="int"> -->
+   <!-- DELETE board -->
+   <!-- WHERE boardnum = #{boardnum} -->
+   <!-- </delete> -->
+</mapper>

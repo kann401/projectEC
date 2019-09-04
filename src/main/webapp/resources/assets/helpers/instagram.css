@@ -1,0 +1,52 @@
+/* insta_area */
+.insta_area{
+   padding:10px 0 40px;
+   text-align: center;
+   background: #669900;
+}
+.insta_area > h2{
+   margin: 0 0 25px;
+   font-size: 24px;
+   font-family: "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
+   font-weight: 400;
+   color: rgb(255,255,255)
+}
+.insta_area > h2 span{
+   margin:0 7px;
+}
+.insta_area ul{
+   overflow: hidden;
+   width: 1200px;
+   margin: 0 auto 30px;
+}
+.insta_area ul li{
+   float: left;
+   width: 200px;
+   overflow: hidden
+}
+.insta_area ul li a{
+   display: block;
+   overflow: hidden   
+}
+.insta_area ul a img{
+   width: 200px;
+   -webkit-transition: -webkit-transform 0.5s;
+   transition: transform 0.5s;
+}
+.insta_area ul a:hover img{
+   -webkit-transform: scale(1.1);
+   -ms-transform: scale(1.1);
+   transform: scale(1.1);
+}
+.insta_area .btn{
+   display: inline-block;
+   width: 400px;
+   height: 40px;
+   font-size: 14px;
+   font-family: "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
+   line-height: 40px;
+   text-align: center;
+   letter-spacing: 1px;
+   color: rgb(255,255,255);
+   background: #88cc00;
+}

@@ -1,0 +1,6 @@
+@CHARSET "UTF-8";
+
+div.modal-backdrop {
+  heigth: 760px;
+  z-index: -1;
+}

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<typeAliases>
+		<typeAlias type="global.sesoc.projectEC.vo.Member" alias="Member" />
+		<typeAlias type="global.sesoc.projectEC.vo.ReservationVO"
+			alias="Reservation" />
+		<typeAlias type="global.sesoc.projectEC.vo.FormVO" alias="FormVO" />
+		<typeAlias type="global.sesoc.projectEC.vo.ResultVO" alias="Result" />
+	</typeAliases>
+
+	<mappers>
+		<mapper resource="memberMapper.xml" />
+		<mapper resource="reserMapper.xml" />
+		<mapper resource="qrMapper.xml" />
+		<mapper resource="boardMapper.xml" />
+		<mapper resource="messageMapper.xml" />
+		<mapper resource="chartMapper.xml" />
+	</mappers>
+</configuration>

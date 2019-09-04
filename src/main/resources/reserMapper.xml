@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 메모 처리 SQL -->
+<mapper namespace="global.sesoc.projectEC.dao.ReservationDAO">
+   
+   <!-- 예약하기 -->
+   <insert id="schduleAdd" parameterType="Reservation" >
+   insert into reservation(resernum, cafeid, cafename, cafetel, businessid, businessname, businesstel, reserDate, reserTime) values(
+      reservation_seq.nextval
+      ,#{cafeid}
+      ,#{cafename}
+      ,#{cafetel}
+      ,#{businessid}
+      ,#{businessname}
+      ,#{businesstel}
+      ,#{reserDate}
+      ,#{reserTime}
+   ) 
+   </insert>
+   <delete id="reserdatecheck">
+      delete reservation where reserdate &lt; sysdate-1 and success='0'      
+   </delete>  
+   <!-- 캘린더에 뿌릴 값 읽어오기 -->   
+   <select id="readReservation" parameterType="string" resultType="Reservation">
+      select * from reservation where success='0' and cafeid=#{loginId} and msg!='f' and msg!='s' or success='0' and businessid=#{loginId} and msg!='f' and msg!='s'
+   </select>
+   
+   <!-- 예약번호로 상세정보 읽어오기 -->
+   <select id="reserconfirm" parameterType="int" resultType="Reservation">
+      select * from reservation where resernum=#{resernum}   
+   </select>
+   
+   <!-- 예약번호로 예약 취소하기 -->
+   <delete id="reserdelete" parameterType="int">
+         delete reservation where resernum=#{resernum}
+   </delete>
+</mapper>

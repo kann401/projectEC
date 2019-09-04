@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 회원정보 처리 SQL -->
+<mapper namespace="global.sesoc.projectEC.dao.QrDAO">
+
+   <!-- 카페 주소를 제외한 예약정보 불러오기 -->
+   <select id="getForm" parameterType="string" resultType="Reservation">
+      select
+      resernum, cafeid, cafename, businessid, businessname from reservation
+      where cafeid = #{cafeid} and msg = 't' and success='0' order by reserdate asc, resertime asc
+      
+   </select>
+
+   <!-- 카페 우편번호 불러오기 -->
+   <select id="getPost" parameterType="string" resultType="string">
+      select
+      postcode from member where custid = #{cafeid}
+   </select>
+
+   <!-- 카페 주소 불러오기 -->
+   <select id="getAddr" parameterType="string" resultType="string">
+      select
+      road from member where custid = #{cafeid}
+   </select>
+   
+   <!-- 수거업체 우편번호 불러오기 -->
+   <select id="getBizPost" parameterType="string" resultType="string">
+      select
+      postcode from member where custid = #{bizid}
+   </select>
+
+   <!-- 수거업체 주소 불러오기 -->
+   <select id="getBizAddr" parameterType="string" resultType="string">
+      select
+      road from member where custid = #{bizid}
+   </select>
+   
+   <!-- 사인파일이름중복체크 -->
+   <select id="checkFileName" parameterType="int" resultType="String">
+      select sign from result where resernum = #{resernum} 
+   </select>
+
+   <!--수거폼 값에서 결과테이블로 값 넣기 -->
+   <insert id="setResult" parameterType="FormVO">
+      insert into
+      RESULT(
+      resernum
+      ,cafeid
+      ,cafename
+      ,cafepostcode
+      ,caferoad
+      ,businessid
+      ,businessname
+      ,businesspostcode
+      ,businessroad
+      ,amount
+      ,sign
+      )
+      values(
+      #{resernum}
+      ,#{cafeid}
+      ,#{cafename}
+      ,#{cafepostcode}
+      ,#{caferoad}
+      ,#{businessid}
+      ,#{businessname}
+      ,#{businesspostcode}
+      ,#{businessroad}
+      ,#{amount}
+      ,#{sign}
+      )
+   </insert>
+   
+   <!--수거거 완료되면 변경되는 값들 -->
+   <update id="setSuccess" parameterType="Reservation">
+         update reservation 
+            set 
+               success = #{success}
+               , msg = #{msg}
+               , msgcheck = #{msgcheck}
+            where 
+               resernum = #{resernum}
+   </update>
+   
+</mapper>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 메모 처리 SQL -->
+<mapper namespace="global.sesoc.projectEC.dao.MessageDAO">
+   
+<!--     업체 로그인시 나에게 카페 이름 가져오기 
+   <select id="getCafename" resultType="string" parameterType="string">
+      select cafename from reservation where businessid=#{loginId} and success = '0' order by reserdate desc
+   </select>
+   
+   업체로그인시 나에게 신청한 카페 아이디 가져오기
+   <select id="getCafeid" resultType="string" parameterType="string">
+      select cafeid from reservation where businessid=#{loginId} and success = '0' order by reserdate desc
+   </select>
+   
+   업체 로그인시 배출신청온 예약 날짜를 가져온다.
+   <select id="getReserdate" resultType="string" parameterType="string">
+      select reserDate from reservation where businessid=#{loginId} and success = '0' order by reserdate desc
+   </select>
+   업체 로그인시 배출신청온 예약 시간을 가져온다.
+   <select id="getResertime" resultType="string" parameterType="string">
+      select reserTime from reservation where businessid=#{loginId} and success = '0' order by reserdate desc
+   </select> -->
+   
+   <!-- 업체로그인시 전체 메시지 개수를 불러온다. -->
+   <select id="getAllcount" parameterType="string" resultType="int">
+      select count(*) from reservation where businessid=#{loginId} and msg != 'f' and msg !='s' order by reserdate desc
+   </select>
+   
+   <select id="getBusimessage" parameterType="string" resultType="Reservation">
+      select resernum, cafename, cafetel, cafeid, reserDate, reserTime, msgcheck, msg, success from reservation where businessid=#{loginId} and msg != 'f' and msg !='s' order by reserdate desc
+   </select>
+   
+   <!-- 카페가 로그인 했을때의 수락받은 (전체) 메시지를 받아온다. -->
+   <select id="getTruemessage" parameterType="string" resultType="Reservation">
+      select resernum, businessname, businesstel, businessid, reserDate, reserTime, msgcheck, msg, success from reservation where cafeid=#{loginId} and success = '0' and msg='t' order by reserdate desc
+   </select>
+   
+   <!-- 카페가 로그인 했을때 거절받은 메시지를 받아온다. -->
+   <select id="getDenymessage" parameterType="string" resultType="Reservation">
+      select resernum, businessname, businesstel, businessid, reserDate, reserTime, msgcheck, msg, success  from reservation where cafeid=#{loginId} and success = '0' and msg='f' order by reserdate desc
+   </select>
+   
+   <!-- 카페가 로그인 했을때 완료된 메시지를 받아온다. -->
+   <select id="getFinishmessage" parameterType="string" resultType="Reservation">
+      select resernum, businessname, businesstel, businessid, reserDate, reserTime, msgcheck, msg, success  from reservation where cafeid=#{loginId} and success = '1' and msg='e' order by reserdate desc
+   </select>
+   
+   <!-- 업체가 읽지 않은 새로운 메시지만 불러온다. -->
+   <select id="getNewmessage" parameterType="string" resultType="Reservation">
+      select resernum, cafename, cafetel, cafeid, reserDate, reserTime, msgcheck, msg, success from reservation where businessid=#{loginId} and success = '0' and msgcheck='0' and msg!='s' order by reserdate desc
+   </select>
+   
+   
+   <!-- 쪽지를 읽은 경우 '읽음' 처리 해주는 쿼리 -->
+   <update id="updateMsgcheck1" parameterType="string">
+      update reservation set msgcheck = '1' where resernum = #{resernum} and success='0' and msgcheck != '2'
+   </update>
+   
+   <!-- 수락을 눌렀다면 msg컬럼을 t로 바꿔주자. -->
+   <update id="updateMsgt" parameterType="int">
+      update reservation set msg = 't' where resernum = #{resernum} and success='0'
+   </update>
+   
+   <!-- 거절을 눌렀다면 msg컬럼을 f로 바꿔주자. -->
+   <update id="updateMsgf" parameterType="int">
+      update reservation set msg = 'f' where resernum = #{resernum} and success='0'
+   </update>
+
+   
+   <!-- 카페가 쪽지를 읽은 경우 '2'로 처리 해주는 쿼리 -->
+   <update id="updateMsgcheck2" parameterType="string">
+      update reservation set msgcheck = '2' where resernum = #{resernum}
+   </update>
+   
+   <!-- 카페가 로그인 했을때의 읽지 않은 수락 메시지가 있는지 확인한다. 있으면 쪽지 알람 발동용 -->
+   <select id="getNotreadtrue" parameterType="string" resultType="Reservation">
+      select resernum, businessname, businesstel, businessid, reserDate, reserTime, msgcheck, msg, success from reservation where cafeid=#{loginId} and success = '0' and msg='t'and msg !='s' and msgcheck != '2' order by reserdate desc
+   </select>
+   
+   <!-- 카페가 로그인 했을때의 읽지 않은 거절 메시지가 있는지 확인한다. 있으면 쪽지 알람 발동용 -->
+   <select id="getNotreadfalse" parameterType="string" resultType="Reservation">
+      select resernum, businessname, businesstel, businessid, reserDate, reserTime, msgcheck, msg, success from reservation where cafeid=#{loginId} and success = '0' and msg='f'and msg !='s' and msgcheck != '2' order by reserdate desc
+   </select>
+   
+   <!-- 카페가 로그인 했을때의 읽지 않은 완료 메시지가 있는지 확인한다. 있으면 쪽지 알람 발동용 -->
+   <select id="getNotreadfinish" parameterType="string" resultType="Reservation">
+      select resernum, businessname, businesstel, businessid, reserDate, reserTime, msgcheck, msg, success from reservation where cafeid=#{loginId} and success = '1' and msg='e'and msg !='s' and msgcheck != '2' order by reserdate desc
+   </select>
+   
+   <!-- 메시지함에서 x를 눌렀을 때 msg컬럼을 s로 업데이트 하고 노출목록에서 제외 -->
+   <update id="tempDelete" parameterType="string">
+      update reservation set msg ='s' where resernum =#{resernum}
+   </update>
+   
+   <!-- X 클릭, 해당 resernum의 success를 불러온다. -->
+   <select id="getsuccess" parameterType="string" resultType="int">
+      select success from reservation where resernum =#{resernum}
+   </select>
+   
+   <!-- 카페 로그인시, 카페가 최초로 거부 버튼을 누르면 2로 업데이트 된다. -->
+   <update id="updateSuccess2" parameterType="string">
+      update reservation set success = '2' where resernum = #{resernum}
+   </update>
+   
+   <!-- 업체 로그인시, X표시를 위한 success를 '3'으로 업데이트 -->
+   <update id="updateSuccess3" parameterType="string">
+      update reservation set success = '3' where resernum = #{resernum}
+   </update>
+   
+   <!-- 카페 로그인시, X표시를 위한 success를 '4'로 업데이트 -->
+   <update id="updateSuccess4" parameterType="string">
+      update reservation set success = '4' where resernum = #{resernum}
+   </update>
+   
+</mapper>
